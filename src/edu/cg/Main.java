@@ -22,6 +22,9 @@ import edu.cg.models.Empty;
 import edu.cg.models.IRenderable;
 import edu.cg.models.SkewedBox;
 import edu.cg.models.Car.F1Car;
+import edu.cg.models.Car.Front;
+import edu.cg.models.Car.PairOfWheels;
+import edu.cg.models.Car.Spolier;
 import edu.cg.models.Car.Wheel;
 
 
@@ -30,7 +33,7 @@ public class Main {
 	// TODO: Incrementally add new models to the models array.
 	//       When the program is started, the first model in the array is rendered.
 	//       Later, pressing 'm' on the keyboard will render the next model in the array.
-	static IRenderable[] models = {new Empty(),new SkewedBox(),new F1Car(),new Wheel()};
+	static IRenderable[] models = {new Empty(),new SkewedBox(),new F1Car(),new Wheel(),new PairOfWheels(),new Front() };
 	static Point prevMouse;
 	static int currentModel;
 	static Frame frame;

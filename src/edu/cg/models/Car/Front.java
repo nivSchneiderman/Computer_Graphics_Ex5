@@ -16,7 +16,34 @@ public class Front implements IRenderable {
 
 	@Override
 	public void render(GL2 gl) {
-		// TODO: Render the front of the car.
+		
+		gl.glPushMatrix();
+		Materials.SetRedMetalMaterial(gl);
+		
+		gl.glTranslated(-Specification.F_HOOD_DEPTH_1/3, 0, 0);
+        hoodBox1.render(gl);
+                
+        gl.glTranslated(Specification.F_HOOD_TOTAL_LENGTH/2, 0.0, 0.0);
+        hoodBox2.render(gl);
+        
+        gl.glTranslated(0.14375, 0, 0);
+        gl.glPushMatrix();//save the middle point
+        Materials.SetDarkRedMetalMaterial(gl);
+        bumperBox.render(gl);
+
+        Materials.SetRedMetalMaterial(gl);
+        gl.glTranslated(0, 0, 0.17);
+        bumperWingsBox.render(gl);
+
+        gl.glPopMatrix();//go back to the center
+        gl.glTranslated(0, 0, -0.17);
+        bumperWingsBox.render(gl);
+        
+        gl.glPopMatrix();//go back to the center
+        gl.glTranslated(0.125, Specification.TIRE_RADIUS/2, 0);
+        wheels.render(gl);
+        
+        gl.glPopMatrix();
 	}
 
 	@Override
