@@ -73,8 +73,47 @@ public class Viewer implements GLEventListener {
 		// on some platforms.
 		gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_FILL);
 	}
+	  
+	
+	
+	//===========================needs work ============
+	private Vec mousePointToVec(Point pt) {
+	        double x = (double)(2 * pt.x) / (double)this.canvasWidth - 1.0;
+	        double y = 1.0 - (double)(2 * pt.y) / (double)this.canvasHeight;
+	        double z2 = 2.0 - x * x - y * y;
+	        if (z2 < 0.0) {
+	            z2 = 0.0;
+	        }
+	        double z = Math.sqrt(z2);
+	        return new Vec(x, y, z).normalize();
+	    }
+	//=========================needs work ===================
 
 	private void setupCamera(GL2 gl) {
+
+		
+		//=============================needs work=======================
+		Vec to;
+        Vec from;
+        Vec axis;
+        gl.glLoadIdentity();
+        if (mouseFrom != null && mouseTo != null && (axis = (from = this.mousePointToVec(this.mouseFrom)).cross(to = this.mousePointToVec(this.mouseTo)).normalize()).isFinite()) {
+            double angle = 57.29577951308232 * Math.acos(from.dot(to));
+            angle = Double.isFinite(angle) ? angle : 0.0;
+            gl.glRotated(angle, (double)axis.x, (double)axis.y, (double)axis.z);
+        }
+        gl.glMultMatrixd(this.rotationMatrix, 0);
+        gl.glGetDoublev(2982, this.rotationMatrix, 0);
+        gl.glLoadIdentity();
+        gl.glTranslated(0.0, 0.0, -1.2);
+        gl.glTranslated(0.0, 0.0, -this.zoom);
+        gl.glMultMatrixd(this.rotationMatrix, 0);
+        this.mouseFrom = null;
+        this.mouseTo = null;
+        
+        //===========================needs work=======================
+        
+        
 		// TODO: You should set up the camera by defining the view transformation.
 		// (Step 1) Calculate rotation matrix:
 		// Remember - You should use the field rotationMatrix to get the current
@@ -141,7 +180,13 @@ public class Viewer implements GLEventListener {
 
 	@Override
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
-		// TODO: Perform the perspective projection here as we learned in class.
+		//this is for resizing the window feature 
+		GL2 gl = drawable.getGL().getGL2();
+        canvasWidth = width;
+        canvasHeight = height;
+        gl.glMatrixMode(5889); //need to change to a GL.VAR GL2.GL_MODELVIEW
+        gl.glLoadIdentity();
+        gl.glFrustum(-0.1, 0.1, -0.1 * (double)height / (double)width, 0.1 * (double)height / (double)width, 0.1, 1000.0);//not sure what this does 
 	}
 
 	/**

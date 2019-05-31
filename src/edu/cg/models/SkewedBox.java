@@ -1,16 +1,18 @@
 package edu.cg.models;
 
 import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.GL2ES3;
 
 public class SkewedBox implements IRenderable {
+	//private static final int GL_QUADS = 7;
 	private double length, height1, height2, depth1, depth2;
 
-	public SkewedBox() {
-		length = .1;
-		height1 = .2;
-		height2 = .1;
-		depth1 = .2;
-		depth2 = .1;
+	public SkewedBox() {   //Default constructor
+		length  = 0.1;
+		height1 = 0.2;
+		height2 = 0.1;
+		depth1  = 0.2;
+		depth2  = 0.1;
 	};
 
 	public SkewedBox(double length, double h1, double h2, double d1, double d2) {
@@ -23,12 +25,60 @@ public class SkewedBox implements IRenderable {
 
 	@Override
 	public void render(GL2 gl) {
-		// TODO : Render the skewed-box using. 
-		//        Use the fields: length, height1, height2, depth1, depth2
+		 
+                
+		//front sqaure 
+		gl.glBegin(gl.GL_QUADS); //check that GL_QUADS == 7 
+        gl.glVertex3d(length / 2, 0,  depth2 / 2);
+        gl.glVertex3d(length / 2, 0, -depth2 / 2);
+        gl.glVertex3d(length / 2, height2, -depth2 / 2);
+        gl.glVertex3d(length / 2, height2,  depth2 / 2);
+        gl.glEnd();
+        
+        //back box
+        gl.glBegin(gl.GL_QUADS);
+        gl.glVertex3d(-length / 2,    0   , -depth1/2);
+        gl.glVertex3d(-length / 2,    0   ,  depth1/2);
+        gl.glVertex3d(-length / 2, height1,  depth1/2);
+        gl.glVertex3d(-length / 2, height1, -depth1/2);
+        gl.glEnd();
+        
+        //upper box
+        gl.glBegin(gl.GL_QUADS);
+        gl.glVertex3d(-length / 2, height1,  depth1 / 2);
+        gl.glVertex3d( length / 2, height2,  depth2 / 2);
+        gl.glVertex3d( length / 2, height2, -depth2 / 2);
+        gl.glVertex3d(-length / 2, height1, -depth1 / 2);
+        gl.glEnd();
+        
+        //lower box 
+        gl.glBegin(gl.GL_QUADS);
+        gl.glVertex3d(-length / 2, 0,  depth1 / 2);
+        gl.glVertex3d(-length / 2, 0, -depth1 / 2);
+        gl.glVertex3d( length / 2, 0, -depth2 / 2);
+        gl.glVertex3d( length / 2, 0,  depth2 / 2);
+        gl.glEnd();
+        
+        //right box
+        gl.glBegin(gl.GL_QUADS);
+        gl.glVertex3d(-length / 2, height1, depth1 / 2);
+        gl.glVertex3d(-length / 2, 0, depth1 / 2);
+        gl.glVertex3d( length / 2, 0, depth2 / 2);
+        gl.glVertex3d( length / 2, height2, depth2 / 2);
+        gl.glEnd();
+              
+        //left box
+        gl.glBegin(gl.GL_QUADS);
+        gl.glVertex3d(-length / 2, 0, -depth1 / 2);
+        gl.glVertex3d(-length / 2, height1, -depth1 / 2);
+        gl.glVertex3d( length / 2, height2, -depth2 / 2);
+        gl.glVertex3d( length / 2, 0, -depth2 / 2);
+        gl.glEnd();
 	}
 
 	@Override
 	public void init(GL2 gl) {
+       	
 	}
 	
 	@Override
@@ -37,3 +87,14 @@ public class SkewedBox implements IRenderable {
 	}
 
 }
+
+
+
+
+
+
+
+
+    
+
+
