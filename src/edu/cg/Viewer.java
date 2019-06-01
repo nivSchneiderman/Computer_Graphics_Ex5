@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.Point;
 
 import com.jogamp.opengl.*;
+import com.jogamp.opengl.fixedfunc.GLMatrixFunc;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.glu.GLUquadric;
 import com.jogamp.opengl.util.FPSAnimator;
@@ -154,12 +155,16 @@ public class Viewer implements GLEventListener {
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
 		// this is for resizing the window feature
 		GL2 gl = drawable.getGL().getGL2();
+        
+		//reset the canvas   
 		canvasWidth = width;
-		canvasHeight = height;
-		gl.glMatrixMode(5889); // need to change to a GL.VAR GL2.GL_MODELVIEW
-		gl.glLoadIdentity();
-		gl.glFrustum(-0.1, 0.1, -0.1 * (double) height / (double) width, 0.1 * (double) height / (double) width, 0.1,
-				1000.0);// not sure what this does
+        canvasHeight = height;
+        
+        gl.glMatrixMode(GL2.GL_PROJECTION); 
+        gl.glLoadIdentity();
+        //clip the veiw plane - last values are the near and far 
+        double r = 0.1;
+        gl.glFrustum(-r, r, -r * (double)height / (double)width, r * (double)height / (double)width, r, 1500); 
 	}
 
 	/**
