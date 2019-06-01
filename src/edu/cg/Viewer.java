@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.Point;
 
 import com.jogamp.opengl.*;
+import com.jogamp.opengl.fixedfunc.GLMatrixFunc;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.glu.GLUquadric;
 import com.jogamp.opengl.util.FPSAnimator;
@@ -103,7 +104,7 @@ public class Viewer implements GLEventListener {
             gl.glRotated(angle, (double)axis.x, (double)axis.y, (double)axis.z);
         }
         gl.glMultMatrixd(this.rotationMatrix, 0);
-        gl.glGetDoublev(2982, this.rotationMatrix, 0);
+        gl.glGetDoublev(GL2.GL_MODELVIEW0_MATRIX_EXT, this.rotationMatrix, 0);
         gl.glLoadIdentity();
         gl.glTranslated(0.0, 0.0, -1.2);
         gl.glTranslated(0.0, 0.0, -this.zoom);
@@ -182,11 +183,16 @@ public class Viewer implements GLEventListener {
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
 		//this is for resizing the window feature 
 		GL2 gl = drawable.getGL().getGL2();
-        canvasWidth = width;
+        
+		//reset the canvas   
+		canvasWidth = width;
         canvasHeight = height;
-        gl.glMatrixMode(5889); //need to change to a GL.VAR GL2.GL_MODELVIEW
+        
+        gl.glMatrixMode(GL2.GL_PROJECTION); 
         gl.glLoadIdentity();
-        gl.glFrustum(-0.1, 0.1, -0.1 * (double)height / (double)width, 0.1 * (double)height / (double)width, 0.1, 1000.0);//not sure what this does 
+        //clip the veiw plane - last values are the near and far 
+        double r = 0.1;
+        gl.glFrustum(-r, r, -r * (double)height / (double)width, r * (double)height / (double)width, r, 1500); 
 	}
 
 	/**
