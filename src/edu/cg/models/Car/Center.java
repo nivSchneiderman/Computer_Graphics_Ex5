@@ -20,19 +20,44 @@ public class Center implements IRenderable {
 	@Override
 	public void render(GL2 gl) {
 		gl.glPushMatrix();
-		
-		//render the chair 
 		Materials.SetBlackMetalMaterial(gl);
+		//render the base
 		bodyBase.render(gl);
+		gl.glTranslated(0, Specification.C_BASE_HEIGHT, 0);
 		
+		gl.glPushMatrix();
+		//render the chair 
+		gl.glTranslated(-Specification.C_BACK_LENGTH/3, 0, 0);
+		backSeatBox.render(gl);
+		gl.glPopMatrix();
+		
+		Materials.SetRedMetalMaterial(gl);
+		gl.glPushMatrix();
 		//front box 
+		gl.glTranslated(Specification.C_BASE_LENGTH/2-Specification.C_FRONT_LENGTH/2, 0, 0);
+		frontBox.render(gl);
+		gl.glPopMatrix();
 		
-		//use again for back box
+		gl.glPushMatrix();
+		//back box
+		gl.glTranslated(-Specification.C_BASE_LENGTH/2+Specification.C_FRONT_LENGTH/2, 0, 0);
+		gl.glRotated(180, 0, 1, 0);
+		frontBox.render(gl);
+		gl.glPopMatrix();
 		
+		gl.glPushMatrix();
 		//side box 1
+		gl.glTranslated(0,0,-Specification.C_BASE_DEPTH/2+Specification.C_SIDE_LENGTH/2);
+		gl.glRotated(270, 0, 1, 0);
+		sideBox.render(gl);
+		gl.glPopMatrix();
 		
 		//side box 2
-		
+		gl.glTranslated(0,0,Specification.C_BASE_DEPTH/2-Specification.C_SIDE_LENGTH/2);
+		gl.glRotated(90, 0, 1, 0);
+		sideBox.render(gl);
+
+		gl.glPopMatrix();
 	}
 
 	@Override

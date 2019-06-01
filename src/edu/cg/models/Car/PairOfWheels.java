@@ -22,17 +22,16 @@ public class PairOfWheels implements IRenderable {
 		glu.gluCylinder(quad, Specification.PAIR_OF_WHEELS_ROD_RADIUS, Specification.PAIR_OF_WHEELS_ROD_RADIUS, Specification.PAIR_OF_WHEELS_ROD_DEPTH, 10, 1);
 		
 		//draw the first wheel 
-		gl.glTranslated(0, 0, 0.225);
+		gl.glTranslated(0, 0, -(Specification.TIRE_DEPTH/2)*3/4);
 		wheel.render(gl);
+		gl.glTranslated(0, 0, (Specification.TIRE_DEPTH/2)*3/4);
 		
 		//draw the second wheel 
-		gl.glTranslated(0, 0, -0.275);
+		gl.glTranslated(0, 0, Specification.PAIR_OF_WHEELS_ROD_DEPTH+(Specification.TIRE_DEPTH/2)*3/4);
 		wheel.render(gl);
 		
-		gl.glPopMatrix();
 	    glu.gluDeleteQuadric(quad);
-		
-		
+	    gl.glPopMatrix();
 	}
 
 	@Override

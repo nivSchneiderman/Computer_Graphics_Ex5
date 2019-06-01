@@ -21,6 +21,8 @@ import com.jogamp.opengl.awt.*;
 import edu.cg.models.Empty;
 import edu.cg.models.IRenderable;
 import edu.cg.models.SkewedBox;
+import edu.cg.models.Car.Back;
+import edu.cg.models.Car.Center;
 import edu.cg.models.Car.F1Car;
 import edu.cg.models.Car.Front;
 import edu.cg.models.Car.PairOfWheels;
@@ -33,7 +35,9 @@ public class Main {
 	// TODO: Incrementally add new models to the models array.
 	//       When the program is started, the first model in the array is rendered.
 	//       Later, pressing 'm' on the keyboard will render the next model in the array.
-	static IRenderable[] models = {new Empty(),new SkewedBox(),new F1Car(),new Wheel(),new PairOfWheels(),new Front() };
+	
+	// TODO: move the back before center
+	static IRenderable[] models = {new F1Car(), new PairOfWheels(), new Spolier(), new Back(), new Center(), new Front(), new SkewedBox(), new Empty()};
 	static Point prevMouse;
 	static int currentModel;
 	static Frame frame;

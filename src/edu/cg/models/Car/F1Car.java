@@ -13,25 +13,24 @@ public class F1Car implements IRenderable {
 	@Override
 	public void render(GL2 gl) {
 
-	Back back = new Back();
-	Center center = new Center();
-	Front front = new Front();
-	
-	 //draw the center 	
-	 center.render(gl);
-	 gl.glPushMatrix();
-	
-	 //draw the back 
-	 gl.glTranslated(-Specification.B_BASE_DEPTH, 0, 0);
-     back.render(gl);
-     gl.glPopMatrix();
-     gl.glPushMatrix();
-     
-     //draw the front
-     gl.glTranslated(Specification.F_HOOD_LENGTH_1 + 0.1, 0, 0);
-     front.render(gl);
-     gl.glPopMatrix();
-     
+		Back back = new Back();
+		Center center = new Center();
+		Front front = new Front();
+
+		// draw the center
+		center.render(gl);
+
+		gl.glPushMatrix();
+		// draw the back
+		gl.glTranslated(-Specification.C_BASE_LENGTH/2-Specification.B_LENGTH/2, 0, 0);
+		back.render(gl);
+		gl.glPopMatrix();
+
+		// draw the front
+		gl.glTranslated(Specification.C_BASE_LENGTH/2+Specification.F_HOOD_LENGTH_1,0,0);
+		front.render(gl);
+		
+		gl.glPopMatrix();
 	}
 
 	@Override

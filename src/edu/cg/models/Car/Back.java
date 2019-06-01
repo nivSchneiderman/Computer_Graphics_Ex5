@@ -18,23 +18,26 @@ public class Back implements IRenderable {
 	@Override
 	public void render(GL2 gl) {
 		gl.glPushMatrix();
-		Materials.SetBlackMetalMaterial(gl);
-		gl.glTranslated(Specification.B_LENGTH / 2.0 - Specification.B_BASE_LENGTH / 2.0, 0.0, 0.0);
-		baseBox.render(gl);
+		
+		// Render backbox
 		Materials.SetRedMetalMaterial(gl);
-		gl.glTranslated(-1.0 * (Specification.B_LENGTH / 2.0 - Specification.B_BASE_LENGTH / 2.0),
-				Specification.B_BASE_HEIGHT, 0.0);
+		gl.glTranslated(0, Specification.B_BASE_HEIGHT, 0);
 		backBox.render(gl);
-		gl.glPopMatrix();
-		gl.glPushMatrix();
-		gl.glTranslated(-Specification.B_LENGTH / 2.0 + Specification.TIRE_RADIUS, 0.5 * Specification.TIRE_RADIUS,
-				0.0);
+		
+		// Render basebox
+		Materials.SetBlackMetalMaterial(gl);
+		gl.glTranslated(Specification.B_LENGTH/2-Specification.B_BASE_LENGTH/2, -Specification.B_BASE_HEIGHT, 0);
+		baseBox.render(gl);
+		gl.glTranslated(0, Specification.B_BASE_HEIGHT, 0);
+		
+		// Render wheels
+		gl.glTranslated(-Specification.B_BASE_LENGTH/2-Specification.TIRE_RADIUS, Specification.B_HEIGHT_1/4, 0);
 		wheels.render(gl);
-		gl.glPopMatrix();
-		gl.glPushMatrix();
-		gl.glTranslated(-Specification.B_LENGTH / 2.0 + 0.5 * Specification.S_LENGTH,
-				0.5 * (Specification.B_HEIGHT_1 + Specification.B_HEIGHT_2), 0.0);
+		
+		// Render spolier
+		gl.glTranslated(0, Specification.B_HEIGHT_1*3/4,0);
 		spoiler.render(gl);
+
 		gl.glPopMatrix();
 	}
 

@@ -16,33 +16,32 @@ public class Front implements IRenderable {
 
 	@Override
 	public void render(GL2 gl) {
-		
 		gl.glPushMatrix();
 		Materials.SetRedMetalMaterial(gl);
 		
-		gl.glTranslated(-Specification.F_HOOD_DEPTH_1/3, 0, 0);
+		gl.glTranslated(-Specification.F_HOOD_LENGTH_1/2, 0, 0);
         hoodBox1.render(gl);
-                
-        gl.glTranslated(Specification.F_HOOD_TOTAL_LENGTH/2, 0.0, 0.0);
+		gl.glTranslated(Specification.F_HOOD_LENGTH_1/2, 0, 0);
+		
+        gl.glTranslated(Specification.F_HOOD_LENGTH_2/2, 0.0, 0.0);
+		// Save the center of hood 2
+        gl.glPushMatrix();
         hoodBox2.render(gl);
+        gl.glTranslated(-Specification.F_HOOD_LENGTH_2/2, 0.0, 0.0);
         
-        gl.glTranslated(0.14375, 0, 0);
-        gl.glPushMatrix();//save the middle point
         Materials.SetDarkRedMetalMaterial(gl);
+        gl.glTranslated(Specification.F_HOOD_LENGTH_2+Specification.F_BUMPER_LENGTH/2, 0, 0);
         bumperBox.render(gl);
-
         Materials.SetRedMetalMaterial(gl);
-        gl.glTranslated(0, 0, 0.17);
+        gl.glTranslated(0, 0, -Specification.F_BUMPER_DEPTH/2-Specification.F_BUMPER_WINGS_DEPTH/2);
         bumperWingsBox.render(gl);
-
-        gl.glPopMatrix();//go back to the center
-        gl.glTranslated(0, 0, -0.17);
+        gl.glTranslated(0, 0, Specification.F_BUMPER_DEPTH+Specification.F_BUMPER_WINGS_DEPTH);
         bumperWingsBox.render(gl);
         
-        gl.glPopMatrix();//go back to the center
-        gl.glTranslated(0.125, Specification.TIRE_RADIUS/2, 0);
+        // Go back to the center of hood 2
+        gl.glPopMatrix();
+        gl.glTranslated(0, Specification.F_HOOD_HEIGHT_2/4,0);
         wheels.render(gl);
-        
         gl.glPopMatrix();
 	}
 
