@@ -4,7 +4,7 @@ import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GL2ES3;
 
 public class SkewedBox implements IRenderable {
-	//private static final int GL_QUADS = 7;
+	
 	private double length, height1, height2, depth1, depth2;
 
 	public SkewedBox() {   //Default constructor
@@ -25,10 +25,9 @@ public class SkewedBox implements IRenderable {
 
 	@Override
 	public void render(GL2 gl) {
-		 
-                
+		                
 		//front sqaure 
-		gl.glBegin(gl.GL_QUADS); //check that GL_QUADS == 7 
+		gl.glBegin(gl.GL_QUADS);  
         gl.glVertex3d(length / 2, 0,  depth2 / 2);
         gl.glVertex3d(length / 2, 0, -depth2 / 2);
         gl.glVertex3d(length / 2, height2, -depth2 / 2);

@@ -23,11 +23,11 @@ public class Front implements IRenderable {
         hoodBox1.render(gl);
 		gl.glTranslated(Specification.F_HOOD_LENGTH_1/2, 0, 0);
 		
-        gl.glTranslated(Specification.F_HOOD_LENGTH_2/2, 0.0, 0.0);
+        gl.glTranslated(Specification.F_HOOD_LENGTH_2/2, 0, 0);
 		// Save the center of hood 2
         gl.glPushMatrix();
         hoodBox2.render(gl);
-        gl.glTranslated(-Specification.F_HOOD_LENGTH_2/2, 0.0, 0.0);
+        gl.glTranslated(-Specification.F_HOOD_LENGTH_2/2, 0, 0);
         
         Materials.SetDarkRedMetalMaterial(gl);
         gl.glTranslated(Specification.F_HOOD_LENGTH_2+Specification.F_BUMPER_LENGTH/2, 0, 0);

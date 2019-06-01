@@ -29,7 +29,7 @@ public class Wheel implements IRenderable {
         //second rime for of the wheel 
         Materials.setMaterialTire(gl);
         gl.glTranslated(0, 0, -Specification.TIRE_DEPTH);
-        gl.glRotated(180.0, 1.0, 0.0, 0.0); //need to turn facing out 
+        gl.glRotated(180, 1, 0, 0); //need to turn facing out 
         glu.gluDisk(quad, 0.05, Specification.TIRE_RADIUS, 30, 1);
         Materials.setMaterialRims(gl);
         glu.gluDisk(quad, 0, 0.05, 30, 1);
