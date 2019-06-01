@@ -35,8 +35,6 @@ public class Main {
 	// TODO: Incrementally add new models to the models array.
 	//       When the program is started, the first model in the array is rendered.
 	//       Later, pressing 'm' on the keyboard will render the next model in the array.
-	
-	// TODO: move the back before center
 	static IRenderable[] models = {new F1Car(), new PairOfWheels(), new Spolier(), new Back(), new Center(), new Front(), new SkewedBox(), new Empty()};
 	static Point prevMouse;
 	static int currentModel;

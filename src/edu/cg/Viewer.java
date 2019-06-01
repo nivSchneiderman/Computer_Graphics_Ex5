@@ -17,7 +17,7 @@ import edu.cg.models.IRenderable;
  */
 public class Viewer implements GLEventListener {
 	private double zoom; // How much to zoom in? >0 mean come closer, <0 means get back. This will be
-						 // used to translate the whole seen relative to the camera.
+							// used to translate the whole seen relative to the camera.
 	private Point mouseFrom, mouseTo; // From where to where was the mouse dragged between the last redraws?
 	private int canvasWidth, canvasHeight;
 	private boolean isWireframe = false; // Should we display wireframe or not?
@@ -38,7 +38,7 @@ public class Viewer implements GLEventListener {
 	@Override
 	public void display(GLAutoDrawable drawable) {
 		// TODO: This method is already implemented. But you should understand it very
-		// will.
+		// well.
 		// When this method is invoked, the model is basically render. Follow the
 		// different calls
 		// inside this method, since some of the methods (i.e setUpCamera), change the
@@ -73,74 +73,46 @@ public class Viewer implements GLEventListener {
 		// on some platforms.
 		gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_FILL);
 	}
-	  
-	
-	
-	//===========================needs work ============
+
+	// ===========================needs work ============
 	private Vec mousePointToVec(Point pt) {
-	        double x = (double)(2 * pt.x) / (double)this.canvasWidth - 1.0;
-	        double y = 1.0 - (double)(2 * pt.y) / (double)this.canvasHeight;
-	        double z2 = 2.0 - x * x - y * y;
-	        if (z2 < 0.0) {
-	            z2 = 0.0;
-	        }
-	        double z = Math.sqrt(z2);
-	        return new Vec(x, y, z).normalize();
-	    }
-	//=========================needs work ===================
+		double x = (double) (2 * pt.x) / (double) this.canvasWidth - 1.0;
+		double y = 1.0 - (double) (2 * pt.y) / (double) this.canvasHeight;
+		double z2 = 2.0 - x * x - y * y;
+		if (z2 < 0.0) {
+			z2 = 0.0;
+		}
+		double z = Math.sqrt(z2);
+		return new Vec(x, y, z).normalize();
+	}
+	// =========================needs work ===================
 
 	private void setupCamera(GL2 gl) {
+		gl.glLoadIdentity();
+		final double distanceFromAxisIntersection = 1.2;
 
+		if (mouseFrom != null && mouseTo != null) 
+		{
+			Vec fromVecToMouse = this.mousePointToVec(this.mouseFrom);
+			Vec mouseToVec = this.mousePointToVec(this.mouseTo);
+			Vec axis = fromVecToMouse.cross(mouseToVec);
+			
+			if (axis.normalize().isFinite())
+			{
+				double angle = Math.toDegrees(Math.acos(fromVecToMouse.dot(mouseToVec)));
+				angle = Double.isFinite(angle) ? angle : 0;
+				gl.glRotated(angle, (double)axis.x, (double)axis.y, (double)axis.z);
+			}
+		}
 		
-		//=============================needs work=======================
-		Vec to;
-        Vec from;
-        Vec axis;
-        gl.glLoadIdentity();
-        if (mouseFrom != null && mouseTo != null && (axis = (from = this.mousePointToVec(this.mouseFrom)).cross(to = this.mousePointToVec(this.mouseTo)).normalize()).isFinite()) {
-            double angle = 57.29577951308232 * Math.acos(from.dot(to));
-            angle = Double.isFinite(angle) ? angle : 0.0;
-            gl.glRotated(angle, (double)axis.x, (double)axis.y, (double)axis.z);
-        }
-        gl.glMultMatrixd(this.rotationMatrix, 0);
-        gl.glGetDoublev(2982, this.rotationMatrix, 0);
-        gl.glLoadIdentity();
-        gl.glTranslated(0.0, 0.0, -1.2);
-        gl.glTranslated(0.0, 0.0, -this.zoom);
-        gl.glMultMatrixd(this.rotationMatrix, 0);
-        this.mouseFrom = null;
-        this.mouseTo = null;
-        
-        //===========================needs work=======================
-        
-        
-		// TODO: You should set up the camera by defining the view transformation.
-		// (Step 1) Calculate rotation matrix:
-		// Remember - You should use the field rotationMatrix to get the current
-		// rotation,
-		// and multiply it with the new rotation. At the end of this method,
-		// you should update the field rotationMatrix to the new rotation matrix - so
-		// that
-		// the rotation will be stored.
-
-		// (Step 2) Define the zoom transformation. In this exercise, the zoom is
-		// performed by translating
-		// the whole scene (moving it away/closer to the camera). Use the field 'zoom'
-		// as the number
-		// number of units that you should translate your scene by.
-
-		// (Step 3) Combine the zoom and rotation transformation and define the final
-		// view transformation.
-
-		// Note: You should reset the ModelView matrix to the identity between the
-		// steps.
-		// This way you can perform matrix multiplication using OpenGL (See the
-		// recitation slides)
-		//
-		// We should have already changed the point of view, now set these to null
-		// so we don't change it again on the next redraw.
-		mouseFrom = null;
-		mouseTo = null;
+		gl.glMultMatrixd(this.rotationMatrix, 0);
+		gl.glGetDoublev(GL2.GL_MODELVIEW0_MATRIX_EXT, this.rotationMatrix, 0);
+		gl.glLoadIdentity();
+		gl.glTranslated(0, 0, -distanceFromAxisIntersection);
+		gl.glTranslated(0, 0, -this.zoom);
+		gl.glMultMatrixd(this.rotationMatrix, 0);
+		this.mouseFrom = null;
+		this.mouseTo = null;
 	}
 
 	private void setupLights(GL2 gl) {
@@ -180,13 +152,14 @@ public class Viewer implements GLEventListener {
 
 	@Override
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
-		//this is for resizing the window feature 
+		// this is for resizing the window feature
 		GL2 gl = drawable.getGL().getGL2();
-        canvasWidth = width;
-        canvasHeight = height;
-        gl.glMatrixMode(5889); //need to change to a GL.VAR GL2.GL_MODELVIEW
-        gl.glLoadIdentity();
-        gl.glFrustum(-0.1, 0.1, -0.1 * (double)height / (double)width, 0.1 * (double)height / (double)width, 0.1, 1000.0);//not sure what this does 
+		canvasWidth = width;
+		canvasHeight = height;
+		gl.glMatrixMode(5889); // need to change to a GL.VAR GL2.GL_MODELVIEW
+		gl.glLoadIdentity();
+		gl.glFrustum(-0.1, 0.1, -0.1 * (double) height / (double) width, 0.1 * (double) height / (double) width, 0.1,
+				1000.0);// not sure what this does
 	}
 
 	/**
