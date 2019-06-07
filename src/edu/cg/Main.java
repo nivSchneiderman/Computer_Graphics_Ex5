@@ -27,7 +27,6 @@ import edu.cg.models.Car.F1Car;
 import edu.cg.models.Car.Front;
 import edu.cg.models.Car.PairOfWheels;
 import edu.cg.models.Car.Spolier;
-import edu.cg.models.Car.Wheel;
 
 
 public class Main {

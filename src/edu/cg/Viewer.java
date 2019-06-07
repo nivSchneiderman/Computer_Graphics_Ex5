@@ -3,10 +3,9 @@ package edu.cg;
 import java.awt.Component;
 import java.awt.Point;
 
-import com.jogamp.opengl.*;
-import com.jogamp.opengl.fixedfunc.GLMatrixFunc;
-import com.jogamp.opengl.glu.GLU;
-import com.jogamp.opengl.glu.GLUquadric;
+import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.GLAutoDrawable;
+import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.util.FPSAnimator;
 
 import edu.cg.algebra.Vec;
@@ -75,18 +74,19 @@ public class Viewer implements GLEventListener {
 		gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_FILL);
 	}
 
-	// ===========================needs work ============
-	private Vec mousePointToVec(Point pt) {
-		double x = (double) (2 * pt.x) / (double) this.canvasWidth - 1.0;
-		double y = 1.0 - (double) (2 * pt.y) / (double) this.canvasHeight;
-		double z2 = 2.0 - x * x - y * y;
-		if (z2 < 0.0) {
-			z2 = 0.0;
+	private Vec mousePointToVector(Point pt) {
+		double x = (double)(2 * pt.x) / (this.canvasWidth-1.0);
+		double y = (1.0-(2 * pt.y))/(double)this.canvasHeight;
+		double z2 = 2.0-x*x-y*y;
+		
+		if (z2 < 0) {
+			z2 = 0;
 		}
+		
 		double z = Math.sqrt(z2);
+		
 		return new Vec(x, y, z).normalize();
 	}
-	// =========================needs work ===================
 
 	private void setupCamera(GL2 gl) {
 		gl.glLoadIdentity();
@@ -94,8 +94,8 @@ public class Viewer implements GLEventListener {
 
 		if (mouseFrom != null && mouseTo != null) 
 		{
-			Vec fromVecToMouse = this.mousePointToVec(this.mouseFrom);
-			Vec mouseToVec = this.mousePointToVec(this.mouseTo);
+			Vec fromVecToMouse = this.mousePointToVector(this.mouseFrom);
+			Vec mouseToVec = this.mousePointToVector(this.mouseTo);
 			Vec axis = fromVecToMouse.cross(mouseToVec);
 			
 			if (axis.normalize().isFinite())
